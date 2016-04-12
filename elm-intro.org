@@ -1,0 +1,142 @@
+#+Title: A Brief Intro to Elm
+#+Author: Austin Bingham
+#+EPRESENT_FRAME_LEVEL: 1
+
+# - FRP
+# - Statically-typed, compiled to HTML and Javascript
+# - Structural typing
+# - Pattern matching
+# - Immutable data structures
+# - Signals, addresses
+# - The Elm Architecture
+# - Port, native interop
+# - tool support: elm-package, elm-format
+
+* What is Elm?
+
+ Haskell for web pages
+
+ Characteristics:
+
+- Statically/structurally typed
+- Compiled
+- Functional (reactive)
+- Immutable data structures
+
+* Where does it fit in the world?
+
+Where Angular sits, except without runtime exceptions.
+
+Seriously, it's like Haskell: if it compiles, it probably works.
+
+* What does it look like?
+
+#+begin_src elm
+distinctColors : List (Float -> Color)
+distinctColors =
+  let
+    colorBases =
+      [ 154, 77, 34, 111, 56, 28, 192, 96, 48, 255, 128, 64 ]
+
+    colorSet base =
+      [ (rgba 0 0 base), (rgba 0 base 0), (rgba base 0 0), (rgba 0 base base), (rgba base 0 base), (rgba base base 0) ]
+  in
+    List.map colorSet colorBases |> List.concat
+#+end_src
+
+* A complete example
+
+=hello_world.elm=
+
+* A better example
+
+=reverse.elm=
+
+* The Elm Architecture
+
+#+begin_src elm
+-- MODEL
+type alias Model = { ... }
+
+-- UPDATE
+type Action = Reset | ...
+
+update : Action -> Model -> Model
+update action model =
+  case action of
+    Reset -> ...
+    ...
+
+-- VIEW
+view : Model -> Html
+view =
+  ...
+#+end_src
+
+* Signals
+
+*Sequences of things*
+
+Represent all sort of things:
+
+- User input
+- The "next" view of your model
+- Time
+- ...anything that varies with time...
+
+#+begin_src elm
+Mouse.position : Signal (Int,Int)
+main : Signal Html
+#+end_src
+
+* Ports: from javascript to Elm
+#+begin_src elm
+port addUser : Signal (String, UserRecord)
+#+end_src
+
+#+begin_src javascript
+myapp.ports.addUser.send([
+    "Tom",
+    { age: 32, job: "lumberjack" }
+]);
+
+myapp.ports.addUser.send([
+    "Sue",
+    { age: 37, job: "accountant" }
+]);
+#+end_src
+
+* Ports: from Elm to javascript
+#+begin_src elm
+port requestUser : Signal String
+port requestUser =
+    signalOfUsersWeWantMoreInfoOn
+#+end_src
+
+#+begin_src javascript
+myapp.ports.requestUser.subscribe(databaseLookup);
+
+function databaseLookup(user) {
+    var userInfo = database.lookup(user);
+    myapp.ports.addUser.send(user, userInfo);
+}
+#+end_src
+
+* Tool support
+
+A good and improving set of tools:
+
+- elm-make
+- elm-package
+- elm-reactor
+- elm-oracle
+- elm-repl
+- elm-format
+
+Good editor support as well.
+
+* Resources
+
+- [[http://elm-lang.org/][Elm homepage]]
+- [[http://www.elm-tutorial.org/][elm-tutorial.org]]
+- [[https://github.com/evancz/elm-todomvc][Todo MVC]]
