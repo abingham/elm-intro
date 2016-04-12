@@ -25,9 +25,11 @@
 
 * Where does it fit in the world?
 
-Where Angular sits, except without runtime exceptions.
+Where Angular sits, except without
+runtime exceptions.
 
-Seriously, it's like Haskell: if it compiles, it probably works.
+Seriously, it's like Haskell: if it
+compiles, it probably works.
 
 * What does it look like?
 
@@ -36,10 +38,16 @@ distinctColors : List (Float -> Color)
 distinctColors =
   let
     colorBases =
-      [ 154, 77, 34, 111, 56, 28, 192, 96, 48, 255, 128, 64 ]
+      [ 154, 77, 34, 111, 56, 28,
+        192, 96, 48, 255, 128, 64 ]
 
     colorSet base =
-      [ (rgba 0 0 base), (rgba 0 base 0), (rgba base 0 0), (rgba 0 base base), (rgba base 0 base), (rgba base base 0) ]
+      [ (rgba 0 0 base),
+        (rgba 0 base 0),
+        (rgba base 0 0),
+        (rgba 0 base base),
+        (rgba base 0 base),
+        (rgba base base 0) ]
   in
     List.map colorSet colorBases |> List.concat
 #+end_src
@@ -90,9 +98,14 @@ main : Signal Html
 #+end_src
 
 * Ports: from javascript to Elm
+
+=Elm=
+
 #+begin_src elm
 port addUser : Signal (String, UserRecord)
 #+end_src
+
+=Javascript=
 
 #+begin_src javascript
 myapp.ports.addUser.send([
@@ -107,18 +120,25 @@ myapp.ports.addUser.send([
 #+end_src
 
 * Ports: from Elm to javascript
+
+=Elm=
+
 #+begin_src elm
 port requestUser : Signal String
 port requestUser =
     signalOfUsersWeWantMoreInfoOn
 #+end_src
 
+=Javascript=
+
 #+begin_src javascript
-myapp.ports.requestUser.subscribe(databaseLookup);
+myapp.ports.requestUser.subscribe(
+    databaseLookup);
 
 function databaseLookup(user) {
     var userInfo = database.lookup(user);
-    myapp.ports.addUser.send(user, userInfo);
+    myapp.ports.addUser.send(
+        user, userInfo);
 }
 #+end_src
 
