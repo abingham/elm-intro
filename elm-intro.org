@@ -2,15 +2,8 @@
 #+Author: Austin Bingham
 #+EPRESENT_FRAME_LEVEL: 1
 
-# - FRP
-# - Statically-typed, compiled to HTML and Javascript
-# - Structural typing
-# - Pattern matching
-# - Immutable data structures
-# - Signals, addresses
-# - The Elm Architecture
-# - Port, native interop
-# - tool support: elm-package, elm-format
+# Start up bark-spider for a demo of that
+# M-x run-elm-reactor
 
 * What is Elm?
 
@@ -22,6 +15,7 @@
 - Compiled
 - Functional (reactive)
 - Immutable data structures
+- Virtual DOM
 
 * Where does it fit in the world?
 
@@ -99,13 +93,13 @@ main : Signal Html
 
 * Ports: from javascript to Elm
 
-=Elm=
+** Elm
 
 #+begin_src elm
 port addUser : Signal (String, UserRecord)
 #+end_src
 
-=Javascript=
+** Javascript
 
 #+begin_src javascript
 myapp.ports.addUser.send([
@@ -121,7 +115,7 @@ myapp.ports.addUser.send([
 
 * Ports: from Elm to javascript
 
-=Elm=
+** Elm
 
 #+begin_src elm
 port requestUser : Signal String
@@ -129,7 +123,7 @@ port requestUser =
     signalOfUsersWeWantMoreInfoOn
 #+end_src
 
-=Javascript=
+** Javascript
 
 #+begin_src javascript
 myapp.ports.requestUser.subscribe(
@@ -160,3 +154,8 @@ Good editor support as well.
 - [[http://elm-lang.org/][Elm homepage]]
 - [[http://www.elm-tutorial.org/][elm-tutorial.org]]
 - [[https://github.com/evancz/elm-todomvc][Todo MVC]]
+* Real example: Bark Spider
+
+A tool for running Brooks' Law simulations
+
+github.com/sixty-north/bark-spider
